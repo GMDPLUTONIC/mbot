@@ -5,132 +5,222 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/css/main.css">
     <title>The Ultimate MBot Program Guide</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+        details {
+            margin: 15px 0;
+            text-align: left;
+            max-width: 600px;
+            margin: auto;
+        }
+        pre {
+            background-color: #eaeaea;
+            padding: 15px;
+            text-align: left;
+            overflow-x: auto;
+            max-width: 90%;
+            margin: 20px auto;
+        }
+    </style>
 </head>
 <body>
 
+<div id="content"></div>
+
+<script>
+    // Define the BerZek format content
+    const berzekCode = `
+    main {
+        'structure' [
+            "title": 'The Ultimate MBot Program Guide',
+            "description": 'This is the official guide for the Ultimate MBot Program in BerZek format.'
+        ]
+        body [
+            "Heading": [
+                { "text": "The Ultimate MBot Program Guide", "tag": "h1" }
+            ],
+            "Paragraph": [
+                "This is the official guide for the Ultimate MBot Program written in BerZek (my web dev language that automatically converts into HTML)."
+            ],
+            "LinkButton": [
+                { "href": "assets/download/mbot2ult.mblock", "text": "Download", "align": "center" }
+            ],
+            "Heading": [
+                { "text": "Guide:", "tag": "h1" }
+            ],
+            "Summary": "Controls:",
+            
+            "Details": [
+                {
+                    "Summary": "Joystick Pushed Forward",
+                    "Content": "- Move Forward At 75 RPM For 1s"
+                },
+                {
+                    "Summary": "Joystick Pulled Backwards",
+                    "Content": "- Turns Around And Move At 75 RPM For 1s"
+                },
+                {
+                    "Summary": "Joystick Pushed To The Right",
+                    "Content": "- Turns Right 90°"
+                },
+                {
+                    "Summary": "Joystick Pulled To The Left",
+                    "Content": "- Turns Left 90°"
+                },
+                {
+                    "Summary": "Joystick Middle Pressed",
+                    "Content": "- Turns Left 90° And Moves Forward At 75 RPM For 1s"
+                },
+                {
+                    "Summary": "MBot Shaken",
+                    "Content": "- Color Detection"
+                },
+                {
+                    "Summary": "Button A Pressed",
+                    "Content": "- Moves In A Square"
+                },
+                {
+                    "Summary": "Button B Pressed",
+                    "Content": "- Moves In A Triangle"
+                }
+            ],
+            
+            "Divider": "hr",
+
+            "Paragraph": [
+                "If You Just Want The Raw Python Code Then Here:"
+            ],
+            
+            "CodeBlock": [
+                "import event, time, cyberpi, mbot2, mbuild\n\n" +
+                "@event.start\n" +
+                "def on_start():\n" +
+                "    cyberpi.display.show_label('Go to: https://mbot-ult-guide.vercel.app To see the guide', 12, 'center', index= 0)\n" +
+                "    while True:\n" +
+                "      if cyberpi.controller.is_press('up'):\n" +
+                "        mbot2.forward(50, 1)\n\n" +
+                "      if cyberpi.controller.is_press('down'):\n" +
+                "        mbot2.turn(-182)\n\n" +
+                "      if cyberpi.controller.is_press('left'):\n" +
+                "        mbot2.turn(-91)\n\n" +
+                "      if cyberpi.controller.is_press('right'):\n" +
+                "        mbot2.turn(91)\n\n" +
+                "      if cyberpi.controller.is_press('middle'):\n" +
+                "        mbot2.turn(-91)\n" +
+                "        mbot2.forward(50, 3)\n\n" +
+                "      if cyberpi.is_shake():\n" +
+                "        Color_Detection()\n\n" +
+                "      if cyberpi.controller.is_press('a'):\n" +
+                "        move_in_square_5_inch()\n\n" +
+                "      if cyberpi.controller.is_press('b'):\n" +
+                "        Triangle()\n\n" +
+                "def Color_Detection():\n" +
+                "    cyberpi.display.show_label(str('Color Detected (RGB): ') + str(str(mbuild.quad_rgb_sensor.get_red('R2',1)) + str(', ') + str(str(mbuild.quad_rgb_sensor.get_green('R2',1)) + str(', ') + str(str(mbuild.quad_rgb_sensor.get_blue('R2',1)) + str(' Color Name: ') + str(mbuild.quad_rgb_sensor.get_color_sta('R2',1))))))), 12, 'center', index= 0)\n\n" +
+                "def move_in_square_5_inch():\n" +
+                "    mbot2.straight(5 * 2.54)\n" +
+                "    mbot2.turn(90)\n" +
+                "    mbot2.straight(5 * 2.54)\n" +
+                "    mbot2.turn(90)\n" +
+                "    mbot2.straight(5 * 2.54)\n" +
+                "    mbot2.turn(90)\n" +
+                "    mbot2.straight(5 * 2.54)\n" +
+                "    mbot2.turn(90)\n\n" +
+                "def Triangle():\n" +
+                "    mbot2.forward(75, 1)\n" +
+                "    mbot2.turn(91)\n" +
+                "    mbot2.forward(75, 1)\n" +
+                "    mbot2.turn(136)\n" +
+                "    mbot2.forward(75, 1.5)\n"
+            ]
+        ]
+    }
+    `;
+
+    // Function to parse BerZek and render HTML
+    function parseBerZek(berzekCode) {
+        const contentDiv = document.getElementById("content");
+
+        // Set title
+        document.title = "The Ultimate MBot Program Guide";
+
+        // Create and append elements based on BerZek format
+        contentDiv.innerHTML = `
             <h1>The Ultimate MBot Program Guide</h1>
-            <p>This is the offical guide for the Ultimate MBot Program written in BerZek (my web dev lang that automatically converts into html)</p>
-            <a href="assets/download/mbot ult.mblock">
-            <button align="center">download</button>
-            </a>
-
+            <p>This is the official guide for the Ultimate MBot Program written in BerZek (my web dev language that automatically converts into HTML).</p>
+            <a href="assets/download/mbot2ult.mblock"><button>Download</button></a>
             <h1>Guide:</h1>
-                <summary>Controls:</summary>
-                
-                <details>
-                
-                <summary>Joystick Pushed Foward
-                    </summary>
-                    
-                    <p> - Move Foward At 75 RPM For 1s</p>
-                    </details>
-                
-                    <details>
-                <summary>Joysick Pulled Backwards</summary>
-                
-                <p> - Turns Around And Move At 75 RPM For 1s</p>   
-                </details>       
-                
-                <details>
-                    <summary>Joystick Pushed To The Right
-                        </summary>
-                        
-                        <p> - Turns Right 90°</p>
-                    </details>
+            <summary>Controls:</summary>
 
-                    <details>
-                    <summary>Joystick Pulled To The Left
-                        </summary>
-                    
-                    <p> - Turns Left 90°</p>
-                </details>
+            <details><summary>Joystick Pushed Forward</summary><p>- Move Forward At 75 RPM For 1s</p></details>
+            <details><summary>Joystick Pulled Backwards</summary><p>- Turns Around And Move At 75 RPM For 1s</p></details>
+            <details><summary>Joystick Pushed To The Right</summary><p>- Turns Right 90°</p></details>
+            <details><summary>Joystick Pulled To The Left</summary><p>- Turns Left 90°</p></details>
+            <details><summary>Joystick Middle Pressed</summary><p>- Turns Left 90° And Moves Forward At 75 RPM For 1s</p></details>
+            <details><summary>MBot Shaken</summary><p>- Color Detection</p></details>
+            <details><summary>Button A Pressed</summary><p>- Moves In A Square</p></details>
+            <details><summary>Button B Pressed</summary><p>- Moves In A Triangle</p></details>
+            
+            <hr>
 
-                <details>
-                    <summary>Joysick Middle Pressed
-                        </summary>
-                        
-                        <p> - Turns Left 90° And Moves Foward At 75 RPM For 1s</p>
-                    </details>
+            <p>If You Just Want The Raw Python Code Then Here:</p>
+            <pre>
+import event, time, cyberpi, mbot2, mbuild
 
-                <details>
-                    <summary>MBot Shaken
-                        </summary>
-                        
-                        <p> - Color Detection</p>
-                    </details>
+@event.start
+def on_start():
+    cyberpi.display.show_label("Go to: https://mbot-ult-guide.vercel.app To see the guide", 12, "center", index= 0)
+    while True:
+      if cyberpi.controller.is_press('up'):
+        mbot2.forward(50, 1)
 
-                    <details>
-                        <summary>Button A Pressed
-                            </summary>
-                            
-                            <p> - Moves In A Square</p>
-                        </details>
+      if cyberpi.controller.is_press('down'):
+        mbot2.turn(-182)
 
-                <details>
-                    <summary>Button B Pressed
-                        </summary>
-                        
-                        <p> - Moves In A Triangle</p>
-                    </details>
-        
-                </details>
+      if cyberpi.controller.is_press('left'):
+        mbot2.turn(-91)
 
-                <hr>
+      if cyberpi.controller.is_press('right'):
+        mbot2.turn(91)
 
+      if cyberpi.controller.is_press('middle'):
+        mbot2.turn(-91)
+        mbot2.forward(50, 3)
 
-                <p>If You Just Want The Raw Python Code Then Here:</p>
+      if cyberpi.is_shake():
+        Color_Detection()
 
-                        <pre id="code-block">
-                            import event, time, cyberpi, mbot2, mbuild
+      if cyberpi.controller.is_press('a'):
+        move_in_square_5_inch()
 
-                            @event.start
-                            def on_start():
-                                cyberpi.display.show_label("Go to: https://mbot-ult-guide.vercel.app To see the guide", 12, "center", index= 0)
-                                while True:
-                                  if cyberpi.controller.is_press('up'):
-                                    mbot2.forward(50, 1)
-                            
-                                  if cyberpi.controller.is_press('down'):
-                                    mbot2.turn(-182)
-                            
-                                  if cyberpi.controller.is_press('left'):
-                                    mbot2.turn(-91)
-                            
-                                  if cyberpi.controller.is_press('right'):
-                                    mbot2.turn(91)
-                            
-                                  if cyberpi.controller.is_press('middle'):
-                                    mbot2.turn(-91)
-                                    mbot2.forward(50, 3)
-                            
-                                  if cyberpi.is_shake():
-                                    Color_Detection()
-                            
-                                  if cyberpi.controller.is_press('a'):
-                                    move_in_square_5_inch()
-                            
-                                  if cyberpi.controller.is_press('b'):
-                                    Triangle()
-                            
-                            def Color_Detection():
-                                cyberpi.display.show_label(str('Color Detected (RGB): ') + str(str(mbuild.quad_rgb_sensor.get_red("R2",1)) + str(str(', ') + str(str(mbuild.quad_rgb_sensor.get_green("R2",1)) + str(str(', ') + str(str(mbuild.quad_rgb_sensor.get_blue("R2",1)) + str(str(' Color Name: ') + str(mbuild.quad_rgb_sensor.get_color_sta("R2",1)))))))), 12, "center", index= 0)
-                            
-                            def move_in_square_5_inch():
-                                mbot2.straight(5 * 2.54)
-                                mbot2.turn(90)
-                                mbot2.straight(5 * 2.54)
-                                mbot2.turn(90)
-                                mbot2.straight(5 * 2.54)
-                                mbot2.turn(90)
-                                mbot2.straight(5 * 2.54)
-                                mbot2.turn(90)
-                            
-                            def Triangle():
-                                mbot2.forward(75, 1)
-                                mbot2.turn(91)
-                                mbot2.forward(75, 1)
-                                mbot2.turn(136)
-                                mbot2.forward(75, 1.5)
-                        </pre>
+      if cyberpi.controller.is_press('b'):
+        Triangle()
+
+def Color_Detection():
+    cyberpi.display.show_label(str('Color Detected (RGB): ') + str(str(mbuild.quad_rgb_sensor.get_red("R2",1)) + str(', ') + str(str(mbuild.quad_rgb_sensor.get_green("R2",1)) + str(', ') + str(str(mbuild.quad_rgb_sensor.get_blue("R2",1)) + str(' Color Name: ') + str(mbuild.quad_rgb_sensor.get_color_sta("R2",1))))))), 12, "center", index= 0)
+
+def move_in_square_5_inch():
+    mbot2.straight(5 * 2.54)
+    mbot2.turn(90)
+    mbot2.straight(5 * 2.54)
+    mbot2.turn(90)
+    mbot2.straight(5 * 2.54)
+    mbot2.turn(90)
+    mbot2.straight(5 * 2.54)
+    mbot2.turn(90)
+
+def Triangle():
+    mbot2.forward(75, 1)
+    mbot2.turn(91)
+    mbot2.forward(75, 1)
+    mbot2.turn(136)
+    mbot2.forward(75, 1.5)
+            </pre>
+        `;
+    }
+
+    // Parse and render the BerZek code
+    parseBerZek(berzekCode);
+</script>
+
 </body>
 </html>
